@@ -62,7 +62,7 @@ class LinkedList {
             }
             this.length++
         }
-        return this
+        return this;
     }
 
     isEmpty() {
@@ -85,15 +85,20 @@ class LinkedList {
     deleteAt(index) {
         let current = this._head;
         let counter = 1;
-        if (index == 0) {
-            this._head.next.prev = null;
-            this._head = this._head.next;
-        } else {
+        if (index == 0 && this.length == 1) {
+            current = null;
+        }
+        else if (index == 0) {
+            current.next.prev = null; this._head = current.next;
+
+            current = null
+        }
+        else {
             while (current) {
                 current = current.next;
                 if (current == this._tail) {
-                    this._tail.prev.next = null;
-                    this._tail = this.tail.prev;
+                    this._tail = this._tail.prev;
+                    this._tail.next = null;
                 } else if (counter == index) {
                     current.next.prev = current.prev;
                     current.prev.next = current.next;
@@ -101,11 +106,8 @@ class LinkedList {
                 }
                 counter++;
             }
-            this.length--;
         }
-
-
-
+        this.length--;
         return this;
     }
 
