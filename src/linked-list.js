@@ -40,8 +40,30 @@ class LinkedList {
     }
 
     insertAt(index, data) {
-       return this
-}
+        let current = this._head;
+        let counter = 1;
+        const node = new Node(data);
+        if (index == 0) {
+            this._head.prev = node
+            node.next = this._head
+            this._head = node
+        }
+        else {
+            while (current) {
+                current = current.next;
+                if (counter === index) {
+                    node.prev = current.prev;
+                    node.next = current;
+                    node.prev.next = node;
+                    current.prev = node;
+                    current = node;
+                }
+                counter++;
+            }
+            this.length++
+        }
+        return this
+    }
 
     isEmpty() {
         if (this.length === 0) return true
@@ -57,27 +79,49 @@ class LinkedList {
         this._head.data = null;
         this._tail.data = null;
         this.length = 0;
-        return this
+        return this;
     }
 
     deleteAt(index) {
+        let current = this._head;
+        let counter = 1;
+        if (index == 0) {
+            this._head.next.prev = null;
+            this._head = this._head.next;
+        } else {
+            while (current) {
+                current = current.next;
+                if (current == this._tail) {
+                    this._tail.prev.next = null;
+                    this._tail = this.tail.prev;
+                } else if (counter == index) {
+                    current.next.prev = current.prev;
+                    current.prev.next = current.next;
+                    current = null;
+                }
+                counter++;
+            }
+            this.length--;
+        }
+
+
 
         return this;
     }
 
     reverse() {
-        let prev=null;
-        let current=this._head;
-        while(current){
-           let next=current.next;
-            current.next=prev;
-            current.prev=current.next;
-            prev=current;
-            current=next;
+        let prev = null;
+        let current = this._head;
+        while (current) {
+            let next = current.next;
+            current.next = prev;
+            current.prev = current.next;
+            prev = current;
+            current = next;
         }
-        this._tail=this._head;
-        this._head=prev;
-        return this
+        this._tail = this._head;
+        this._head = prev;
+        return this;
     }
 
     indexOf(data) {
